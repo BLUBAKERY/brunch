@@ -916,10 +916,10 @@ function applyLang(l) {
   document.getElementById('d-none').textContent = t.dNone;
   document.getElementById('d-veg').textContent = t.dVeg;
   document.getElementById('d-vegan').textContent = t.dVegan;
-  document.getElementById('d-gluten').textContent = t.dGluten;
+  if(document.getElementById('d-gluten')) document.getElementById('d-gluten').textContent = t.dGluten;
   document.getElementById('d-lactose').textContent = t.dLactose;
   document.getElementById('d-otra').textContent = t.dOtra;
-  document.getElementById('txt-gluten-note').textContent = t.glutenNote;
+  if(document.getElementById('txt-gluten-note')) document.getElementById('txt-gluten-note').textContent = t.glutenNote;
   document.getElementById('ey-lang').textContent = t.eyLang;
   document.getElementById('ttl-lang').textContent = t.ttlLang;
   document.getElementById('lp-es').textContent = t.lpEs;
