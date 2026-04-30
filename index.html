@@ -111,8 +111,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
   <div class="admin-section">
     <span style="opacity:.4;font-size:10px">FECHAS (dd mes)</span>
-    <input id="a-d1" placeholder="sáb 9 mayo">
-    <input id="a-d2" placeholder="dom 10 mayo">
+    <input id="a-d1" placeholder="sáb 8 mayo">
+    <input id="a-d2" placeholder="dom 9 mayo">
     <input id="a-d3" placeholder="dom 17 mayo">
   </div>
   <div class="admin-section">
@@ -556,7 +556,7 @@ async function translateMenu(){
   applyLang(lang);
 }
 
-var SCRIPT_URL='https://script.google.com/macros/s/AKfycbxRdwyWBO7Q_FIG6eKCd9Bq_iIYhubJb1_AX_xxXJ8s181UxJOYjklju5woCFx0RXKH/exec';
+var SCRIPT_URL='https://script.google.com/macros/s/AKfycbxA7ivNBSt9jYNvVF3dOmJPNrQ-h6Vx3zAI1FJCyEQJbFgxMW9ljJjHeMTdEwPQvrSb/exec';
 
 function submitForm(interes){
   var dateCard=document.querySelector('.date-card.selected');
@@ -598,6 +598,43 @@ function showSuccess(name){
 }
 
 applyLang('es');
+
+// Load config from Google Sheets
+fetch(SCRIPT_URL)
+  .then(function(r){return r.json();})
+  .then(function(cfg){
+    if(cfg.eventName) STATE.eventName=cfg.eventName;
+    if(cfg.price) STATE.price=cfg.price;
+    if(cfg.themeName) STATE.themeName=cfg.themeName;
+    if(cfg.themeDesc) STATE.themeDesc=cfg.themeDesc;
+    // dates
+    if(cfg.date1_num) DATES[0].num=cfg.date1_num;
+    if(cfg.date1_day_es) { DATES[0].day_es=cfg.date1_day_es; TX.es.dayNames[0]=cfg.date1_day_es; TX.en.dayNames[0]=cfg.date1_day_es; }
+    if(cfg.date1_mes_es) { DATES[0].mes_es=cfg.date1_mes_es; TX.es.months[0]=cfg.date1_mes_es; TX.en.months[0]=cfg.date1_mes_es; }
+    if(cfg.date2_num) DATES[1].num=cfg.date2_num;
+    if(cfg.date2_day_es) { DATES[1].day_es=cfg.date2_day_es; TX.es.dayNames[1]=cfg.date2_day_es; TX.en.dayNames[1]=cfg.date2_day_es; }
+    if(cfg.date2_mes_es) { DATES[1].mes_es=cfg.date2_mes_es; TX.es.months[1]=cfg.date2_mes_es; TX.en.months[1]=cfg.date2_mes_es; }
+    if(cfg.date3_num) DATES[2].num=cfg.date3_num;
+    if(cfg.date3_day_es) { DATES[2].day_es=cfg.date3_day_es; TX.es.dayNames[2]=cfg.date3_day_es; TX.en.dayNames[2]=cfg.date3_day_es; }
+    if(cfg.date3_mes_es) { DATES[2].mes_es=cfg.date3_mes_es; TX.es.months[2]=cfg.date3_mes_es; TX.en.months[2]=cfg.date3_mes_es; }
+    // menu
+    var ms=[]; var md=[];
+    var ms_en=[]; var md_en=[];
+    for(var i=1;i<=10;i++){
+      if(cfg['menu_savory_'+i]) ms.push(cfg['menu_savory_'+i]);
+      if(cfg['menu_sweet_'+i]) md.push(cfg['menu_sweet_'+i]);
+      if(cfg['menu_savory_en_'+i]) ms_en.push(cfg['menu_savory_en_'+i]);
+      if(cfg['menu_sweet_en_'+i]) md_en.push(cfg['menu_sweet_en_'+i]);
+    }
+    if(ms.length>0) STATE.menuSavory=ms;
+    if(md.length>0) STATE.menuSweet=md;
+    if(ms_en.length>0) STATE.menuSavoryEn=ms_en;
+    if(md_en.length>0) STATE.menuSweetEn=md_en;
+    applyLang(lang);
+  })
+  .catch(function(){
+    // silently fail, show default content
+  });
 </script>
 </body>
 </html>
