@@ -6,516 +6,103 @@
 <title>Jardín Secreto · Sunday Brunch</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --moss:        #2E4A2E;
-  --moss-mid:    #4A6741;
-  --sage:        #7A9E72;
-  --sage-light:  #C5D9BF;
-  --sage-pale:   #EBF2E8;
-  --petal:       #B5614A;
-  --petal-light: #DFA898;
-  --petal-pale:  #F7EBE7;
-  --cream:       #F9F5EE;
-  --linen:       #F2EBE0;
-  --bark:        #2A1E14;
-  --bark-mid:    #5C4535;
-  --bark-light:  #9A7A60;
-  --mist:        #E4DDD3;
-  --gold:        #B8924A;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  background: var(--cream);
-  color: var(--bark);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ── NOISE TEXTURE ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.5;
-}
-
-/* ── ADMIN BAR ── */
-.admin-bar {
-  display: none;
-  background: var(--bark);
-  color: var(--cream);
-  padding: 10px 20px;
-  font-size: 11px;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  position: relative;
-  z-index: 100;
-}
-.admin-bar span { opacity: 0.5; letter-spacing: 0.1em; text-transform: uppercase; }
-.admin-bar input {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-family: 'Jost', sans-serif;
-  width: 130px;
-}
-.admin-bar input::placeholder { color: rgba(255,255,255,0.3); }
-.admin-bar textarea {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-family: 'Jost', sans-serif;
-  width: 200px;
-  height: 40px;
-  resize: none;
-}
-.admin-btn {
-  background: var(--petal);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 12px;
-  font-size: 11px;
-  cursor: pointer;
-  font-family: 'Jost', sans-serif;
-  letter-spacing: 0.05em;
-}
-.admin-section { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 10px; }
-
-/* ── LANG ── */
-.lang-bar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 20px 24px 0;
-  gap: 6px;
-  position: relative;
-  z-index: 10;
-}
-.lang-btn {
-  background: none;
-  border: 1px solid var(--sage-light);
-  color: var(--bark-mid);
-  padding: 4px 14px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-family: 'Jost', sans-serif;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all 0.25s;
-  text-transform: uppercase;
-}
-.lang-btn.active { background: var(--moss); color: var(--cream); border-color: var(--moss); }
-
-/* ── PAGE ── */
-.page {
-  position: relative;
-  z-index: 1;
-  max-width: 580px;
-  margin: 0 auto;
-  padding: 0 20px 70px;
-}
-
-/* ── HERO ── */
-.hero {
-  text-align: center;
-  padding: 20px 0 32px;
-  animation: fadeUp 1s ease both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.event-name-display {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 14px;
-  display: block;
-}
-
-.greeting-line {
-  font-size: 12px;
-  font-weight: 300;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--bark-light);
-  margin-bottom: 8px;
-}
-
-.guest-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 58px;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--moss);
-  line-height: 1;
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
-}
-
-.subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--bark-light);
-  margin-bottom: 28px;
-}
-
-.ornament {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-.ornament-line { width: 70px; height: 1px; background: linear-gradient(to right, transparent, var(--petal-light)); }
-.ornament-line.right { background: linear-gradient(to left, transparent, var(--petal-light)); }
-.ornament-center { color: var(--petal-light); font-size: 14px; }
-
-.manifesto {
-  font-size: 15px;
-  line-height: 1.95;
-  color: var(--bark-mid);
-  max-width: 460px;
-  margin: 0 auto;
-  font-weight: 300;
-}
-.manifesto em {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 17px;
-  color: var(--moss);
-  display: block;
-  margin-bottom: 8px;
-}
-
-/* ── PILLS ── */
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin: 32px 0;
-  animation: fadeUp 1s 0.1s ease both;
-}
-.pill {
-  background: white;
-  border: 1px solid var(--mist);
-  border-radius: 30px;
-  padding: 8px 18px;
-  font-size: 12px;
-  color: var(--bark-mid);
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.pill-icon { font-size: 13px; }
-
-/* ── SECTION ── */
-.section {
-  background: white;
-  border: 1px solid var(--mist);
-  border-radius: 20px;
-  padding: 26px 24px;
-  margin-bottom: 12px;
-  animation: fadeUp 1s 0.15s ease both;
-  position: relative;
-  overflow: hidden;
-}
-.section::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(to bottom, var(--sage-light), var(--petal-light));
-  border-radius: 3px 0 0 3px;
-}
-
-.section-eyebrow {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--sage);
-  margin-bottom: 5px;
-  display: block;
-}
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 19px;
-  font-weight: 400;
-  color: var(--moss);
-  margin-bottom: 6px;
-  line-height: 1.3;
-}
-.section-body {
-  font-size: 13.5px;
-  color: var(--bark-mid);
-  line-height: 1.75;
-  margin-bottom: 16px;
-}
-
-/* ── THEME BOX ── */
-.theme-box {
-  background: linear-gradient(135deg, var(--sage-pale), var(--petal-pale));
-  border: 1px solid var(--sage-light);
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 0;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-.theme-icon {
-  width: 38px;
-  height: 38px;
-  background: var(--moss);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-  flex-shrink: 0;
-}
-.theme-text { flex: 1; }
-.theme-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-style: italic;
-  color: var(--moss);
-  display: block;
-  margin-bottom: 4px;
-}
-.theme-desc { font-size: 13px; color: var(--bark-mid); line-height: 1.7; }
-
-/* ── MENU ── */
-.menu-category {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--petal);
-  margin-bottom: 10px;
-  margin-top: 16px;
-  display: block;
-}
-.menu-category:first-child { margin-top: 0; }
-.menu-list { list-style: none; }
-.menu-list li {
-  font-size: 13.5px;
-  color: var(--bark-mid);
-  padding: 6px 0;
-  border-bottom: 1px solid var(--linen);
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  line-height: 1.5;
-}
-.menu-list li:last-child { border-bottom: none; }
-.menu-list li::before { content: '✦'; color: var(--petal-light); font-size: 8px; margin-top: 4px; flex-shrink: 0; }
-.menu-note { font-size: 11.5px; color: var(--bark-light); font-style: italic; margin-top: 12px; line-height: 1.6; }
-
-/* ── DATE GRID ── */
-.date-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
-.date-card {
-  border: 1px solid var(--mist);
-  border-radius: 14px;
-  padding: 14px 8px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.22s;
-  background: var(--cream);
-  position: relative;
-}
-.date-card:hover { border-color: var(--sage); background: var(--sage-pale); }
-.date-card.selected { border-color: var(--moss); background: var(--sage-pale); }
-.date-card.selected::before { content: '✓'; position: absolute; top: 6px; right: 8px; font-size: 10px; color: var(--moss); }
-.date-day { font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--bark-light); display: block; margin-bottom: 3px; }
-.date-num { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--moss); line-height: 1; display: block; }
-.date-month { font-size: 11px; color: var(--bark-mid); display: block; margin-top: 2px; }
-.date-time { font-size: 10px; color: var(--bark-light); display: block; margin-top: 4px; letter-spacing: 0.05em; }
-.date-other {
-  border: 1px dashed var(--mist);
-  border-radius: 14px;
-  padding: 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.22s;
-  font-size: 13px;
-  color: var(--bark-light);
-  margin-top: 2px;
-}
-.date-other:hover { border-color: var(--petal-light); color: var(--petal); background: var(--petal-pale); }
-.date-other.selected { border-color: var(--petal); color: var(--petal); background: var(--petal-pale); }
-
-/* ── TAGS ── */
-.tags { display: flex; flex-wrap: wrap; gap: 7px; }
-.tag {
-  border: 1px solid var(--mist);
-  border-radius: 20px;
-  padding: 7px 15px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-  color: var(--bark-mid);
-  background: var(--cream);
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-}
-.tag.moss:hover, .tag.moss.sel { border-color: var(--moss); background: var(--sage-pale); color: var(--moss); }
-.tag.petal:hover, .tag.petal.sel { border-color: var(--petal); background: var(--petal-pale); color: var(--petal); }
-.tag.gold:hover, .tag.gold.sel { border-color: var(--gold); background: #FBF5EA; color: var(--bark-mid); }
-
-.sub-reveal { display: none; margin-top: 12px; padding: 14px; background: var(--linen); border-radius: 12px; }
-.sub-reveal p { font-size: 12px; color: var(--bark-light); margin-bottom: 10px; font-style: italic; letter-spacing: 0.03em; }
-
-/* ── LANG PREF ── */
-.lang-cards { display: flex; gap: 8px; }
-.lang-card {
-  flex: 1;
-  border: 1px solid var(--mist);
-  border-radius: 12px;
-  padding: 14px 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.22s;
-  background: var(--cream);
-}
-.lang-card:hover, .lang-card.sel { border-color: var(--sage); background: var(--sage-pale); }
-.lang-card .flag { font-size: 20px; display: block; margin-bottom: 5px; }
-.lang-card .lname { font-size: 12px; color: var(--bark-mid); letter-spacing: 0.05em; }
-
-/* ── LOCATION ── */
-.location-card {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  background: var(--petal-pale);
-  border: 1px solid var(--petal-light);
-  border-radius: 14px;
-  padding: 16px;
-}
-.loc-pin {
-  width: 34px; height: 34px;
-  background: var(--petal);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.loc-text strong {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-style: italic;
-  color: var(--moss);
-  display: block;
-  margin-bottom: 4px;
-}
-.loc-text p { font-size: 13px; color: var(--bark-mid); line-height: 1.7; }
-
-/* ── PRICE ── */
-.price-card {
-  background: var(--moss);
-  border-radius: 16px;
-  padding: 22px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--cream);
-}
-.price-left .price-eyebrow { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.6; margin-bottom: 4px; display: block; }
-.price-left .price-amount { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; line-height: 1; }
-.price-left .price-includes { font-size: 12px; opacity: 0.65; margin-top: 4px; display: block; letter-spacing: 0.03em; }
-.price-right { font-size: 32px; opacity: 0.4; }
-
-/* ── TEXTAREA ── */
-.text-input {
-  width: 100%;
-  border: 1px solid var(--mist);
-  border-radius: 12px;
-  padding: 14px 16px;
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: 14px;
-  color: var(--bark);
-  background: var(--cream);
-  outline: none;
-  transition: border-color 0.2s;
-  resize: vertical;
-  min-height: 90px;
-  line-height: 1.6;
-}
-.text-input:focus { border-color: var(--sage); }
-.text-input::placeholder { color: var(--bark-light); }
-
-/* ── CTA ── */
-.cta-block { margin-top: 14px; }
-.cta-btn {
-  display: block;
-  width: 100%;
-  background: var(--moss);
-  color: var(--cream);
-  border: none;
-  border-radius: 14px;
-  padding: 20px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-style: italic;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: all 0.25s;
-  text-align: center;
-  text-decoration: none;
-}
-.cta-btn:hover { background: var(--moss-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(46,74,46,0.2); }
-.cta-note { font-size: 12px; color: var(--bark-light); text-align: center; margin-top: 12px; line-height: 1.7; font-style: italic; }
-
-/* ── CLOSING ── */
-.closing {
-  text-align: center;
-  padding: 40px 0 0;
-  animation: fadeUp 1s 0.3s ease both;
-}
-.closing-text { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; color: var(--bark-light); line-height: 1.8; }
-
-/* ── SUCCESS ── */
-.success-screen {
-  display: none;
-  text-align: center;
-  padding: 80px 20px;
-}
-.success-screen .s-emoji { font-size: 48px; margin-bottom: 24px; display: block; }
-.success-screen h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; font-style: italic; color: var(--moss); margin-bottom: 14px; }
-.success-screen p { font-size: 15px; color: var(--bark-mid); line-height: 1.9; max-width: 380px; margin: 0 auto; font-weight: 300; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--moss:#2E4A2E;--moss-mid:#4A6741;--sage:#7A9E72;--sage-light:#C5D9BF;--sage-pale:#EBF2E8;--petal:#B5614A;--petal-light:#DFA898;--petal-pale:#F7EBE7;--cream:#F9F5EE;--linen:#F2EBE0;--bark:#2A1E14;--bark-mid:#5C4535;--bark-light:#9A7A60;--mist:#E4DDD3;--gold:#B8924A}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;font-weight:300;background:var(--cream);color:var(--bark);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.5}
+.admin-bar{display:none;background:var(--bark);color:var(--cream);padding:10px 20px;font-size:11px;flex-wrap:wrap;gap:8px;align-items:center;position:relative;z-index:100}
+.admin-bar span{opacity:0.5;letter-spacing:0.1em;text-transform:uppercase}
+.admin-bar input{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:5px 10px;border-radius:6px;font-size:11px;font-family:'Jost',sans-serif;width:130px}
+.admin-bar input::placeholder{color:rgba(255,255,255,0.3)}
+.admin-bar textarea{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:5px 10px;border-radius:6px;font-size:11px;font-family:'Jost',sans-serif;width:200px;height:60px;resize:none}
+.admin-btn{background:var(--petal);color:white;border:none;border-radius:6px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'Jost',sans-serif}
+.admin-section{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-left:1px solid rgba(255,255,255,0.15);padding-left:10px}
+.lang-bar{display:flex;justify-content:flex-end;padding:20px 24px 0;gap:6px;position:relative;z-index:10}
+.lang-btn{background:none;border:1px solid var(--sage-light);color:var(--bark-mid);padding:4px 14px;border-radius:20px;font-size:11px;font-family:'Jost',sans-serif;letter-spacing:0.12em;cursor:pointer;transition:all .25s;text-transform:uppercase}
+.lang-btn.active{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+.page{position:relative;z-index:1;max-width:580px;margin:0 auto;padding:0 20px 70px}
+.hero{text-align:center;padding:20px 0 32px;animation:fadeUp 1s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.event-name-display{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:400;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block}
+.greeting-line{font-size:12px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--bark-light);margin-bottom:8px}
+.guest-name{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:300;font-style:italic;color:var(--moss);line-height:1;margin-bottom:6px;letter-spacing:-0.01em}
+.subtitle{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:var(--bark-light);margin-bottom:28px}
+.ornament{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px}
+.ornament-line{width:70px;height:1px;background:linear-gradient(to right,transparent,var(--petal-light))}
+.ornament-line.right{background:linear-gradient(to left,transparent,var(--petal-light))}
+.ornament-center{color:var(--petal-light);font-size:14px}
+.manifesto{font-size:15px;line-height:1.95;color:var(--bark-mid);max-width:460px;margin:0 auto;font-weight:300}
+.manifesto em{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--moss);display:block;margin-bottom:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:32px 0;animation:fadeUp 1s .1s ease both}
+.pill{background:white;border:1px solid var(--mist);border-radius:30px;padding:8px 18px;font-size:12px;color:var(--bark-mid);letter-spacing:0.05em;display:flex;align-items:center;gap:7px}
+.pill-icon{font-size:13px}
+.section{background:white;border:1px solid var(--mist);border-radius:20px;padding:26px 24px;margin-bottom:12px;animation:fadeUp 1s .15s ease both;position:relative;overflow:hidden}
+.section::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--sage-light),var(--petal-light));border-radius:3px 0 0 3px}
+.section-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:var(--sage);margin-bottom:5px;display:block}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--moss);margin-bottom:6px;line-height:1.3}
+.section-body{font-size:13.5px;color:var(--bark-mid);line-height:1.75;margin-bottom:16px}
+.theme-box{background:linear-gradient(135deg,var(--sage-pale),var(--petal-pale));border:1px solid var(--sage-light);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start}
+.theme-icon{width:38px;height:38px;background:var(--moss);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.theme-text{flex:1}
+.theme-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--moss);display:block;margin-bottom:4px}
+.theme-desc{font-size:13px;color:var(--bark-mid);line-height:1.7}
+.menu-category{font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:var(--petal);margin-bottom:10px;margin-top:16px;display:block}
+.menu-category:first-child{margin-top:0}
+.menu-list{list-style:none}
+.menu-list li{font-size:13.5px;color:var(--bark-mid);padding:6px 0;border-bottom:1px solid var(--linen);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.menu-list li:last-child{border-bottom:none}
+.menu-list li::before{content:'✦';color:var(--petal-light);font-size:8px;margin-top:4px;flex-shrink:0}
+.menu-note{font-size:11.5px;color:var(--bark-light);font-style:italic;margin-top:12px;line-height:1.6}
+.date-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.date-card{border:1px solid var(--mist);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .22s;background:var(--cream);position:relative}
+.date-card:hover{border-color:var(--sage);background:var(--sage-pale)}
+.date-card.selected{border-color:var(--moss);background:var(--sage-pale)}
+.date-card.selected::before{content:'✓';position:absolute;top:6px;right:8px;font-size:10px;color:var(--moss)}
+.date-day{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--bark-light);display:block;margin-bottom:3px}
+.date-num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--moss);line-height:1;display:block}
+.date-month{font-size:11px;color:var(--bark-mid);display:block;margin-top:2px}
+.date-time{font-size:10px;color:var(--bark-light);display:block;margin-top:4px;letter-spacing:0.05em}
+.date-other{border:1px dashed var(--mist);border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:all .22s;font-size:13px;color:var(--bark-light);margin-top:2px}
+.date-other:hover{border-color:var(--petal-light);color:var(--petal);background:var(--petal-pale)}
+.date-other.selected{border-color:var(--petal);color:var(--petal);background:var(--petal-pale)}
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{border:1px solid var(--mist);border-radius:20px;padding:7px 15px;font-size:13px;cursor:pointer;transition:all .2s;color:var(--bark-mid);background:var(--cream);font-family:'Jost',sans-serif;font-weight:300}
+.tag.moss:hover,.tag.moss.sel{border-color:var(--moss);background:var(--sage-pale);color:var(--moss)}
+.tag.petal:hover,.tag.petal.sel{border-color:var(--petal);background:var(--petal-pale);color:var(--petal)}
+.sub-reveal{display:none;margin-top:12px;padding:14px;background:var(--linen);border-radius:12px}
+.sub-reveal p{font-size:12px;color:var(--bark-light);margin-bottom:10px;font-style:italic}
+.lang-cards{display:flex;gap:8px}
+.lang-card{flex:1;border:1px solid var(--mist);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .22s;background:var(--cream)}
+.lang-card:hover,.lang-card.sel{border-color:var(--sage);background:var(--sage-pale)}
+.lang-card .flag{font-size:20px;display:block;margin-bottom:5px}
+.lang-card .lname{font-size:12px;color:var(--bark-mid);letter-spacing:0.05em}
+.location-card{display:flex;gap:12px;align-items:flex-start;background:var(--petal-pale);border:1px solid var(--petal-light);border-radius:14px;padding:16px}
+.loc-pin{width:34px;height:34px;background:var(--petal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:2px}
+.loc-text strong{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--moss);display:block;margin-bottom:4px}
+.loc-text p{font-size:13px;color:var(--bark-mid);line-height:1.7}
+.price-card{background:var(--moss);border-radius:16px;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;color:var(--cream)}
+.price-left .price-eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.6;margin-bottom:4px;display:block}
+.price-left .price-amount{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1}
+.price-left .price-includes{font-size:12px;opacity:0.65;margin-top:4px;display:block;letter-spacing:0.03em}
+.price-right{font-size:32px;opacity:0.4}
+.text-input{width:100%;border:1px solid var(--mist);border-radius:12px;padding:14px 16px;font-family:'Jost',sans-serif;font-weight:300;font-size:14px;color:var(--bark);background:var(--cream);outline:none;transition:border-color .2s;resize:vertical;min-height:90px;line-height:1.6}
+.text-input:focus{border-color:var(--sage)}
+.text-input::placeholder{color:var(--bark-light)}
+.cta-block{margin-top:14px}
+.cta-btn{display:block;width:100%;background:var(--moss);color:var(--cream);border:none;border-radius:14px;padding:20px;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;letter-spacing:0.06em;cursor:pointer;transition:all .25s;text-align:center;text-decoration:none}
+.cta-btn:hover{background:var(--moss-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,74,46,0.2)}
+.cta-note{font-size:12px;color:var(--bark-light);text-align:center;margin-top:12px;line-height:1.7;font-style:italic}
+.closing{text-align:center;padding:40px 0 0;animation:fadeUp 1s .3s ease both}
+.closing-text{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--bark-light);line-height:1.8}
+.success-screen{display:none;text-align:center;padding:80px 20px}
+.success-screen .s-emoji{font-size:48px;margin-bottom:24px;display:block}
+.success-screen h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;font-style:italic;color:var(--moss);margin-bottom:14px}
+.success-screen p{font-size:15px;color:var(--bark-mid);line-height:1.9;max-width:380px;margin:0 auto;font-weight:300}
 </style>
 </head>
 <body>
 
-<!-- ADMIN BAR -->
 <div class="admin-bar" id="admin-bar">
   <span>✦ modo Juli</span>
   <div class="admin-section">
@@ -533,21 +120,22 @@ body::before {
     <input id="a-price" placeholder="$22.000">
   </div>
   <div class="admin-section">
-    <span style="opacity:.4;font-size:10px">MENÚ (uno x línea)</span>
-    <textarea id="a-menu-s" placeholder="Salado: tartines..."></textarea>
-    <textarea id="a-menu-d" placeholder="Dulce: cookies..."></textarea>
+    <span style="opacity:.4;font-size:10px">MENÚ SALADO (uno x línea)</span>
+    <textarea id="a-menu-s" placeholder="item 1&#10;item 2"></textarea>
+  </div>
+  <div class="admin-section">
+    <span style="opacity:.4;font-size:10px">MENÚ DULCE (uno x línea)</span>
+    <textarea id="a-menu-d" placeholder="item 1&#10;item 2"></textarea>
   </div>
   <div class="admin-section">
     <span style="opacity:.4;font-size:10px">TEMÁTICA</span>
     <input id="a-theme-name" placeholder="Jardín Secreto">
     <input id="a-theme-desc" placeholder="Descripción corta">
   </div>
-  <div class="admin-section">
-    <span style="opacity:.4;font-size:10px">LINK TALLY</span>
-    <input id="a-tally" placeholder="https://tally.so/r/xxxxx">
-  </div>
-  <button class="admin-btn" onclick="applyAdmin()">Aplicar cambios</button>
+  <button class="admin-btn" id="admin-apply-btn" onclick="applyAdmin()">Aplicar cambios</button>
 </div>
+
+<div style="text-align:center;padding:32px 0 0;font-size:28px;letter-spacing:8px;opacity:0.7">🌿 🍂 🌸</div>
 
 <div class="lang-bar">
   <button class="lang-btn active" onclick="setLang('es',this)">ES</button>
@@ -555,8 +143,6 @@ body::before {
 </div>
 
 <div class="page">
-
-  <!-- HERO -->
   <div class="hero">
     <span class="event-name-display" id="txt-event-name">Jardín Secreto · Sunday Brunch</span>
     <p class="greeting-line" id="txt-greeting">una invitación especial para</p>
@@ -569,11 +155,10 @@ body::before {
     </div>
     <p class="manifesto">
       <em id="txt-manifesto-em">No mando esto a cualquiera.</em>
-      <span id="txt-manifesto-body">Esta invitación llega solo a mujeres con las que compartí algo y con las que quiero seguir encontrándome. Es un espacio íntimo, con hasta 6 invitadas, donde cuido cada detalle. La idea es brunchear juntas, comer rico con cosas hechas por mí y disfrutar de un encuentro entre mujeres diferente.</span>
+      <span id="txt-manifesto-body">Esta es una propuesta para experimentar un encuentro entre mujeres distinto. Degustar un brunch diferente, pensado en torno a una atmósfera específica y una temática concreta, pero manteniendo siempre lo que más importa: un ambiente íntimo, con especial atención en cada detalle.</span>
     </p>
   </div>
 
-  <!-- PILLS -->
   <div class="pills">
     <div class="pill"><span class="pill-icon">🌸</span><span id="pill-1">Solo mujeres · hasta 6</span></div>
     <div class="pill"><span class="pill-icon">👩‍🍳</span><span id="pill-2">Cocina Juli</span></div>
@@ -583,7 +168,6 @@ body::before {
 
   <div id="main-content">
 
-    <!-- TEMÁTICA -->
     <div class="section">
       <span class="section-eyebrow" id="ey-theme">la temática</span>
       <h2 class="section-title" id="ttl-theme">Cada encuentro tiene su mundo</h2>
@@ -592,40 +176,27 @@ body::before {
         <div class="theme-icon">🌿</div>
         <div class="theme-text">
           <span class="theme-name" id="txt-theme-name">Jardín Secreto</span>
-          <p class="theme-desc" id="txt-theme-desc">Flores de otoño, musgo, velas, lino crudo y cerámica artesanal. Un rincón que parece encontrado, no construido. Algo mágico y femenino, con ese misterio que tienen los lugares que existen pero no se anuncian.</p>
+          <p class="theme-desc" id="txt-theme-desc">Una atmósfera para celebrar lo femenino, flores, frescura y encanto místico.</p>
         </div>
       </div>
     </div>
 
-    <!-- MENÚ -->
     <div class="section">
       <span class="section-eyebrow" id="ey-menu">en la mesa</span>
       <h2 class="section-title" id="ttl-menu">El menú</h2>
       <span class="menu-category" id="mc-savory">✦ Salado</span>
-      <ul class="menu-list" id="menu-savory-list">
-        <li>Bagels de masa madre con huevo, palta y cream cheese</li>
-        <li>Calabaza crispy con panko y semillas</li>
-        <li>Hummus</li>
-      </ul>  
-      
+      <ul class="menu-list" id="menu-savory-list"></ul>
       <span class="menu-category" id="mc-sweet">✦ Dulce</span>
-      <ul class="menu-list" id="menu-sweet-list">
-        <li>Cookies de sésamo negro, Earl gray y choco blanco</li>
-        <li>Mini bundt cakes de naranja y cardamomo y caramelo salado</li>
-        <li>Extras</li>
-      </ul>
+      <ul class="menu-list" id="menu-sweet-list"></ul>
       <span class="menu-category" id="mc-drinks">✦ Bebidas</span>
-      <ul class="menu-list">
-        <li id="drink-list">Café solo · Latte (leche común o de almendras) · Té · Mate</li>
-      </ul>
-      <p class="menu-note" id="txt-menu-note">✦ El menú puede adaptarse según las preferencias del grupo. Se ofrece versión sin gluten aunque no es apta para celíacas por contaminación cruzada.</p>
+      <ul class="menu-list"><li id="drink-list">Café solo · Latte (leche común o de almendras) · Té · Mate</li></ul>
+      <p class="menu-note" id="txt-menu-note">✦ El menú se adapta a las preferencias del grupo.</p>
     </div>
 
-    <!-- FECHAS -->
     <div class="section">
       <span class="section-eyebrow" id="ey-dates">el encuentro</span>
       <h2 class="section-title" id="ttl-dates">¿Qué fecha te queda mejor?</h2>
-      <p class="section-body" id="body-dates">Ofrezco varias fechas para poder agrupar a las chicas según su disponibilidad. Si ninguna te cierra, marcá "otra fecha" y la tengo en cuenta para próximos encuentros.</p>
+      <p class="section-body" id="body-dates">Ofrezco varias fechas para poder agrupar a las chicas según su disponibilidad. Si ninguna te cierra, marcá la última opción.</p>
       <div class="date-grid">
         <div class="date-card" onclick="selDate(this,'d0')" id="dcard-0">
           <span class="date-day" id="dday-0">sábado</span>
@@ -651,7 +222,6 @@ body::before {
       </div>
     </div>
 
-    <!-- BEBIDA -->
     <div class="section">
       <span class="section-eyebrow" id="ey-drinks">para tomar</span>
       <h2 class="section-title" id="ttl-drinks">¿Qué tomás?</h2>
@@ -660,8 +230,8 @@ body::before {
         <div class="tag petal" onclick="togTag(this,'latte')" id="t-latte">🥛 Latte</div>
         <div class="tag petal" onclick="togTag(this,'te')" id="t-te">🍵 Té</div>
         <div class="tag petal" onclick="togTag(this,'mate')" id="t-mate">🧉 Mate</div>
-      <div class="tag petal" onclick="togTag(this,'otro-beb')" id="t-otro-beb">+ Otro</div>
-        </div>
+        <div class="tag petal" onclick="togTag(this,'otro')" id="t-otro-beb">+ Otro</div>
+      </div>
       <div class="sub-reveal" id="milk-sub">
         <p id="txt-milk-q">Si pedís latte, ¿qué leche preferís?</p>
         <div class="tags">
@@ -671,7 +241,6 @@ body::before {
       </div>
     </div>
 
-    <!-- DIETA -->
     <div class="section">
       <span class="section-eyebrow" id="ey-diet">para que cocine bien</span>
       <h2 class="section-title" id="ttl-diet">¿Tenés alguna restricción alimentaria?</h2>
@@ -682,10 +251,8 @@ body::before {
         <div class="tag moss" onclick="togDiet(this,'lactose')" id="d-lactose">Sin lactosa</div>
         <div class="tag moss" onclick="togDiet(this,'otra')" id="d-otra">Otra</div>
       </div>
-
     </div>
 
-    <!-- IDIOMA -->
     <div class="section">
       <span class="section-eyebrow" id="ey-lang">el ambiente</span>
       <h2 class="section-title" id="ttl-lang">¿En qué idioma preferís el encuentro?</h2>
@@ -696,15 +263,13 @@ body::before {
       </div>
     </div>
 
-    <!-- NOTAS -->
     <div class="section">
       <span class="section-eyebrow" id="ey-notes">algo más</span>
       <h2 class="section-title" id="ttl-notes">¿Querés dejarme alguna nota?</h2>
       <p class="section-body" id="body-notes">Alergias puntuales, algo que quieras que sepa, una amiga que podría querer venir, lo que sea.</p>
-      <textarea class="text-input" id="notes-input" id="txt-notes-placeholder" placeholder="Escribí acá lo que quieras..."></textarea>
+      <textarea class="text-input" id="notes-input" placeholder="Escribí acá lo que quieras..."></textarea>
     </div>
 
-    <!-- UBICACIÓN -->
     <div class="section">
       <span class="section-eyebrow" id="ey-loc">dónde</span>
       <h2 class="section-title" id="ttl-loc">El lugar</h2>
@@ -712,374 +277,326 @@ body::before {
         <div class="loc-pin">📍</div>
         <div class="loc-text">
           <strong id="txt-loc-title">Mi casa · Devoto, CABA</strong>
-          <p id="txt-loc-desc">Zona de Manuel Solá 4500. La dirección exacta te la mando cuando confirmemos el grupo. Una vez que reciba tu confirmación de interés, voy a agrupar a las chicas según disponibilidad y preferencias, y ahí les escribo para coordinar el pago que reserva el lugar.</p>
+          <p id="txt-loc-desc">Zona de Manuel Solá 4500. La dirección exacta te la mando cuando confirmemos el grupo. Una vez que reciba tu confirmación, voy a agrupar a las chicas y les escribo para coordinar el pago que reserva el lugar.</p>
         </div>
       </div>
     </div>
 
-    <!-- PRECIO -->
     <div class="section">
       <span class="section-eyebrow" id="ey-price">la propuesta</span>
       <h2 class="section-title" id="ttl-price">¿Cuánto incluye?</h2>
-      <p class="section-body" id="body-price">El valor cubre el brunch completo, las bebidas, la decoración temática y la experiencia. No hay nada extra a pagar el día del encuentro.</p>
+      <p class="section-body" id="body-price">Todo incluido. Brunch, bebidas y la experiencia completa. No hay nada extra a pagar el día del encuentro.</p>
       <div class="price-card">
         <div class="price-left">
-          <span class="price-eyebrow" id="txt-price-eye">por persona</span>
+          <span class="price-eyebrow" id="txt-price-eye">por persona · todo incluido</span>
           <div class="price-amount" id="txt-price">$22.000</div>
-          <span class="price-includes" id="txt-price-inc">brunch completo + bebidas + experiencia temática</span>
+          <span class="price-includes" id="txt-price-inc">la experiencia completa</span>
         </div>
         <div class="price-right">🌿</div>
       </div>
     </div>
 
-    <!-- CTA -->
     <div class="cta-block">
       <button onclick="submitForm('si')" class="cta-btn" id="cta-btn" style="margin-bottom:10px">Me interesa estar ✦</button>
       <button onclick="submitForm('no')" class="cta-btn" id="cta-btn-no" style="background:transparent;border:1px solid var(--moss);color:var(--moss);font-size:15px;padding:14px">No puedo por ahora, avisame de próximos encuentros</button>
-      <p class="cta-note" id="txt-cta-note">Cuando confirmemos el grupo, te escribo para coordinar el pago y los detalles del encuentro.</p>
-      <p id="txt-sending" style="display:none;text-align:center;font-size:13px;color:var(--sage);margin-top:10px;font-style:italic;">Enviando... 🌿</p>
-      <p id="txt-error" style="display:none;text-align:center;font-size:13px;color:var(--petal);margin-top:10px;font-style:italic;">Algo salió mal, intentá de nuevo.</p>
+      <p class="cta-note" id="txt-cta-note">Cuando confirmemos el grupo, te escribo para coordinar el pago y los detalles.</p>
+      <p id="txt-sending" style="display:none;text-align:center;font-size:13px;color:var(--sage);margin-top:10px;font-style:italic">Enviando... 🌿</p>
+      <p id="txt-error" style="display:none;text-align:center;font-size:13px;color:var(--petal);margin-top:10px;font-style:italic">Algo salió mal, intentá de nuevo.</p>
     </div>
 
-  </div><!-- /main-content -->
+  </div>
 
-  <!-- CLOSING -->
   <div class="closing">
     <p class="closing-text" id="txt-closing">con cariño y ganas de encontrarnos,<br><em>Juli</em></p>
   </div>
 
-  <!-- SUCCESS -->
   <div class="success-screen" id="success-screen">
     <span class="s-emoji">🌸</span>
     <h2 id="s-title">¡Qué lindo!</h2>
-    <p id="s-body">Ya tengo tus ganas de venir. En cuanto junte el grupo y confirme las fechas, te escribo con todos los detalles para coordinar.</p>
+    <p id="s-body">Ya tengo tus ganas de venir. En cuanto junte el grupo, te escribo con todos los detalles para coordinar.</p>
   </div>
-
-</div><!-- /page -->
+</div>
 
 <script>
-// ── STATE ──
-const DATES = [
-  { day_es:'sábado',  day_en:'saturday',  num:'8',  mes_es:'mayo', mes_en:'may'  },
-  { day_es:'domingo', day_en:'sunday',    num:'9',  mes_es:'mayo', mes_en:'may'  },
-  { day_es:'domingo', day_en:'sunday',    num:'17', mes_es:'mayo', mes_en:'may'  },
+var DATES = [
+  {day_es:'sábado',day_en:'saturday',num:'8',mes_es:'mayo',mes_en:'may'},
+  {day_es:'domingo',day_en:'sunday',num:'9',mes_es:'mayo',mes_en:'may'},
+  {day_es:'domingo',day_en:'sunday',num:'17',mes_es:'mayo',mes_en:'may'}
 ];
 
-let STATE = {
-  eventName: 'Jardín Secreto · Sunday Brunch',
-  price: '$22.000',
-  tallyLink: 'https://tally.so',
-  themeName: 'Jardín Secreto',
-  themeDesc: 'Flores de otoño, musgo, velas, lino crudo y cerámica artesanal. Un rincón que parece encontrado, no construido. Algo mágico y femenino.',
-  menuSavory: ['Bagels de masa madre con huevos, palta y cream cheese','Calabaza crispy en panko y semillas','Hummus','Extras'],
-  menuSweet: ['Cookies de sésamo negro, Earl gray y choco blanco','Mini bundt cakes de naranja y cardamomo con caramelo salado y frosting','Extras'],
+var STATE = {
+  eventName:'Jardín Secreto · Sunday Brunch',
+  price:'$22.000',
+  themeName:'Jardín Secreto',
+  themeDesc:'Una atmósfera para celebrar lo femenino, flores, frescura y encanto místico.',
+  menuSavory:['Bagels de masa madre con huevos, palta y cream cheese','Calabaza crispy con panko y semillas','Hummus'],
+  menuSweet:['Mini bundt de cardamomo y naranja con caramelo salado','Cookies de sésamo negro, earl gray y chocolate blanco','Extras'],
+  menuSavoryEn:['Sourdough bagels with eggs, avocado & cream cheese','Crispy pumpkin with panko & seeds','Hummus'],
+  menuSweetEn:['Mini cardamom & orange bundt cakes with salted caramel','Black sesame, earl grey & white chocolate cookies','Extras']
 };
 
-const TX = {
-  es: {
-    eventName: () => STATE.eventName,
-    greeting: 'una invitación especial para',
-    subtitle: 'por Juli',
-    manifestoEm: 'No mando esto a cualquiera.',
-    manifestoBody: 'Esta es una propuesta para experimentar un encuentro entre mujeres distinto. Degustar un brunch diferente, pensado en torno a una atmósfera específica y una temática concreta, pero manteniendo siempre lo que más importa: un ambiente íntimo, con especial atención en cada detalle.',
-    p1:'Solo mujeres · hasta 6', p2:'Cocina Juli', p3:'11:00 a 13:30 hs', p4:'Devoto, CABA',
-    eyTheme:'la temática', ttlTheme:'Cada encuentro tiene su mundo',
+var TX = {
+  es:{
+    greeting:'una invitación especial para',subtitle:'por Juli',
+    manifestoEm:'No mando esto a cualquiera.',
+    manifestoBody:'Esta es una propuesta para experimentar un encuentro entre mujeres distinto. Degustar un brunch diferente, pensado en torno a una atmósfera específica y una temática concreta, pero manteniendo siempre lo que más importa: un ambiente íntimo, con especial atención en cada detalle.',
+    p1:'Solo mujeres · hasta 6',p2:'Cocina Juli',p3:'11:00 a 13:30 hs',p4:'Devoto, CABA',
+    eyTheme:'la temática',ttlTheme:'Cada encuentro tiene su mundo',
     bodyTheme:'Cada brunch gira en torno a una temática diferente — en la decoración, el menú, los detalles de la mesa y el ambiente. No es un evento genérico: es una experiencia pensada y construida con intención.',
-    themeName: ()=>STATE.themeName, themeDesc: ()=>STATE.themeDesc,
-    eyMenu:'en la mesa', ttlMenu:'El menú',
-    mcSavory:'✦ Salado', mcSweet:'✦ Dulce', mcDrinks:'✦ Bebidas',
+    eyMenu:'en la mesa',ttlMenu:'El menú',
+    mcSavory:'✦ Salado',mcSweet:'✦ Dulce',mcDrinks:'✦ Bebidas',
     drinkList:'Café solo · Latte (leche común o de almendras) · Té · Mate',
     menuNote:'✦ El menú se adapta a las preferencias del grupo.',
-    eyDates:'el encuentro', ttlDates:'¿Qué fecha te queda mejor?',
-    bodyDates:'Ofrezco varias fechas para poder agrupar a las chicas según su disponibilidad. Si ninguna te cierra, marcá "otra fecha" y la tengo en cuenta para próximos encuentros.',
-    dayNames: DATES.map(d=>d.day_es), months: DATES.map(d=>d.mes_es),
+    eyDates:'el encuentro',ttlDates:'¿Qué fecha te queda mejor?',
+    bodyDates:'Ofrezco varias fechas para poder agrupar a las chicas según su disponibilidad. Si ninguna te cierra, marcá la última opción.',
+    dayNames:['sábado','domingo','domingo'],months:['mayo','mayo','mayo'],
     otherDate:'Ninguna me queda, pero me interesa para otra fecha 🌿',
-    eyDrinks:'para tomar', ttlDrinks:'¿Qué tomás?',
-    tCafe:'☕ Café solo', tLatte:'🥛 Latte', tTe:'🍵 Té', tMate:'🧉 Mate',
-    milkQ:'Si pedís latte, ¿qué leche preferís?', mComun:'Leche común', mAlm:'Leche de almendras',
-    eyDiet:'para que cocine bien', ttlDiet:'¿Tenés alguna restricción alimentaria?',
-    dNone:'Ninguna', dVeg:'Vegetariana', dVegan:'Vegana', dGluten:'Sin gluten*', dLactose:'Sin lactosa', dOtra:'Otra',
-    glutenNote:'* Se puede ofrecer opciones sin gluten pero no es apto celíacas por contaminación cruzada.',
-    eyLang:'el ambiente', ttlLang:'¿En qué idioma preferís el encuentro?',
-    lpEs:'Español', lpEn:'English', lpBoth:'Me es indistinto',
-    eyNotes:'algo más', ttlNotes:'¿Querés dejarme alguna nota?',
+    eyDrinks:'para tomar',ttlDrinks:'¿Qué tomás?',
+    tCafe:'☕ Café solo',tLatte:'🥛 Latte',tTe:'🍵 Té',tMate:'🧉 Mate',
+    milkQ:'Si pedís latte, ¿qué leche preferís?',mComun:'Leche común',mAlm:'Leche de almendras',
+    eyDiet:'para que cocine bien',ttlDiet:'¿Tenés alguna restricción alimentaria?',
+    dNone:'Ninguna',dVeg:'Vegetariana',dVegan:'Vegana',dLactose:'Sin lactosa',dOtra:'Otra',
+    eyLang:'el ambiente',ttlLang:'¿En qué idioma preferís el encuentro?',
+    lpEs:'Español',lpEn:'English',lpBoth:'Me es indistinto',
+    eyNotes:'algo más',ttlNotes:'¿Querés dejarme alguna nota?',
     bodyNotes:'Alergias puntuales, algo que quieras que sepa, una amiga que podría querer venir, lo que sea.',
     notesPlaceholder:'Escribí acá lo que quieras...',
-    eyLoc:'dónde', ttlLoc:'El lugar',
+    eyLoc:'dónde',ttlLoc:'El lugar',
     locTitle:'Mi casa · Devoto, CABA',
     locDesc:'Zona de Manuel Solá 4500. La dirección exacta te la mando cuando confirmemos el grupo. Una vez que reciba tu confirmación, voy a agrupar a las chicas y les escribo para coordinar el pago que reserva el lugar.',
-    eyPrice:'la propuesta', ttlPrice:'¿Cuánto incluye?',
-    bodyPrice:'El valor cubre el brunch completo, las bebidas, la decoración temática y la experiencia. No hay nada extra el día del encuentro.',
-    priceEye:'por persona · todo incluido', priceInc:'brunch completo + bebidas + experiencia temática',
-    ctaBtn:'Me interesa estar ✦',
-    ctaNote:'Al hacer click vas a completar un formulario rápido. Cuando confirmemos el grupo, te escribo para coordinar el pago y los detalles.',
+    eyPrice:'la propuesta',ttlPrice:'¿Cuánto incluye?',
+    bodyPrice:'Todo incluido. Brunch, bebidas y la experiencia completa. No hay nada extra a pagar el día del encuentro.',
+    priceEye:'por persona · todo incluido',priceInc:'la experiencia completa',
+    ctaBtn:'Me interesa estar ✦',ctaNo:'No puedo por ahora, avisame de próximos encuentros',
+    ctaNote:'Cuando confirmemos el grupo, te escribo para coordinar el pago y los detalles.',
     closing:'con cariño y ganas de encontrarnos,',
-    sTitle: n=>`¡Qué lindo, ${n}!`,
-    sBody:'Ya tengo tus ganas de venir. En cuanto junte el grupo, te escribo con todos los detalles.',
+    sTitle:'¡Qué lindo,',sBody:'Ya tengo tus ganas de venir. En cuanto junte el grupo, te escribo con todos los detalles.'
   },
-  en: {
-    eventName: () => STATE.eventName,
-    greeting: 'a special invitation for',
-    subtitle: 'from Juli',
-    manifestoEm: 'I don\'t send this to just anyone.',
-    manifestoBody: 'This is an invitation to experience something different. A brunch crafted around a specific atmosphere and theme, with special attention to every detail — and above all, an intimate space where women can truly connect.',
-    p1:'Women only · up to 6', p2:'Juli cooks', p3:'11:00 to 13:30', p4:'Devoto, Buenos Aires',
-    eyTheme:'the theme', ttlTheme:'Every gathering has its own world',
-    bodyTheme:'Each brunch is built around a different theme — the decor, the menu, the table details, the atmosphere. An intentional, crafted experience. Not generic, not rushed. A space where women can gather, slow down, and really enjoy.',
-    themeName: ()=>STATE.themeName, themeDesc: ()=>STATE.themeDesc,
-    eyMenu:'on the table', ttlMenu:'The menu',
-    mcSavory:'✦ Savory', mcSweet:'✦ Sweet', mcDrinks:'✦ Drinks',
+  en:{
+    greeting:'a special invitation for',subtitle:'from Juli',
+    manifestoEm:"I don't send this to just anyone.",
+    manifestoBody:'This is an invitation to experience something different. A brunch crafted around a specific atmosphere and theme, with special attention to every detail — and above all, an intimate space where women can truly connect.',
+    p1:'Women only · up to 6',p2:'Juli cooks',p3:'11:00 to 13:30',p4:'Devoto, Buenos Aires',
+    eyTheme:'the theme',ttlTheme:'Every gathering has its own world',
+    bodyTheme:'Each brunch is built around a different theme — the decor, the menu, the table details, the atmosphere. An intentional, crafted experience.',
+    eyMenu:'on the table',ttlMenu:'The menu',
+    mcSavory:'✦ Savory',mcSweet:'✦ Sweet',mcDrinks:'✦ Drinks',
     drinkList:'Black coffee · Latte (regular or almond milk) · Tea · Mate',
-    menuNote:'✦ The menu adapts to the group's preferences.',
-    eyDates:'the gathering', ttlDates:'Which date works for you?',
-    bodyDates:'I offer several dates to group guests by availability. If none work, mark "other date" and I\'ll keep you in mind for future gatherings.',
-    dayNames: DATES.map(d=>d.day_en), months: DATES.map(d=>d.mes_en),
-    otherDate:'None of these work, but I\'m interested in a future date 🌿',
-    eyDrinks:'to drink', ttlDrinks:'What do you drink?',
-    tCafe:'☕ Black coffee', tLatte:'🥛 Latte', tTe:'🍵 Tea', tMate:'🧉 Mate',
-    milkQ:'If you want a latte, which milk do you prefer?', mComun:'Regular milk', mAlm:'Almond milk',
-    eyDiet:'so I can cook well', ttlDiet:'Any dietary restrictions?',
-    dNone:'None', dVeg:'Vegetarian', dVegan:'Vegan', dGluten:'Gluten-free*', dLactose:'Dairy-free', dOtra:'Other',
-    glutenNote:'* Gluten-free options available but not safe for celiacs due to cross-contamination.',
-    eyLang:'the vibe', ttlLang:'Which language do you prefer?',
-    lpEs:'Español', lpEn:'English', lpBoth:'Either works',
-    eyNotes:'anything else', ttlNotes:'Any notes for me?',
-    bodyNotes:'Specific allergies, something you want me to know, a friend who might want to come — anything.',
-    notesPlaceholder:'Write whatever you\'d like...',
-    eyLoc:'where', ttlLoc:'The place',
+    menuNote:"✦ The menu adapts to the group's preferences.",
+    eyDates:'the gathering',ttlDates:'Which date works for you?',
+    bodyDates:"I offer several dates to group guests by availability. If none work, select the last option.",
+    dayNames:['saturday','sunday','sunday'],months:['may','may','may'],
+    otherDate:"None of these work, but I'm interested in a future date 🌿",
+    eyDrinks:'to drink',ttlDrinks:'What do you drink?',
+    tCafe:'☕ Black coffee',tLatte:'🥛 Latte',tTe:'🍵 Tea',tMate:'🧉 Mate',
+    milkQ:'If you want a latte, which milk do you prefer?',mComun:'Regular milk',mAlm:'Almond milk',
+    eyDiet:'so I can cook well',ttlDiet:'Any dietary restrictions?',
+    dNone:'None',dVeg:'Vegetarian',dVegan:'Vegan',dLactose:'Dairy-free',dOtra:'Other',
+    eyLang:'the vibe',ttlLang:'Which language do you prefer?',
+    lpEs:'Español',lpEn:'English',lpBoth:'Either works',
+    eyNotes:'anything else',ttlNotes:'Any notes for me?',
+    bodyNotes:'Specific allergies, something you want me to know, a friend who might want to come.',
+    notesPlaceholder:"Write whatever you'd like...",
+    eyLoc:'where',ttlLoc:'The place',
     locTitle:'My home · Devoto, Buenos Aires',
-    locDesc:'Around Manuel Solá 4500. I\'ll send the exact address once the group is confirmed. Once I receive your interest, I\'ll group everyone and reach out to coordinate the payment that reserves your spot.',
-    eyPrice:'the offer', ttlPrice:'What\'s included?',
+    locDesc:"Around Manuel Solá 4500. I'll send the exact address once the group is confirmed.",
+    eyPrice:'the offer',ttlPrice:"What's included?",
     bodyPrice:'Everything included. Brunch, drinks and the full experience. Nothing extra on the day.',
-    priceEye:'per person · all inclusive', priceInc:'full brunch + drinks + themed experience',
-    ctaBtn:'I want to be there ✦',
-    ctaNote:'Click to fill out a quick form with your preferences. Once the group is confirmed, I\'ll reach out to coordinate payment and details.',
+    priceEye:'per person · all inclusive',priceInc:'the complete experience',
+    ctaBtn:'I want to be there ✦',ctaNo:"Can't make it now, let me know about future gatherings",
+    ctaNote:"Once the group is confirmed, I'll reach out to coordinate.",
     closing:'with warmth and excitement to see you,',
-    sTitle: n=>`So lovely, ${n}!`,
-    sBody:'I\'ve got your interest. Once the group comes together, I\'ll reach out with all the details.',
+    sTitle:'So lovely,',sBody:"I've got your interest. Once the group comes together, I'll reach out with all the details."
   }
 };
 
-let lang = 'es';
-const params = new URLSearchParams(location.search);
-const guestRaw = params.get('name') || '';
-const guestName = guestRaw ? guestRaw.charAt(0).toUpperCase() + guestRaw.slice(1) : '';
-const isAdmin = params.get('admin') === '1';
+var lang='es';
+var params=new URLSearchParams(location.search);
+var guestRaw=params.get('name')||'';
+var guestName=guestRaw?guestRaw.charAt(0).toUpperCase()+guestRaw.slice(1):'';
+var isAdmin=params.get('admin')==='1';
+if(isAdmin){var ab=document.getElementById('admin-bar');if(ab)ab.style.display='flex';}
 
-if (isAdmin) document.getElementById('admin-bar').style.display = 'flex';
+function s(id){return document.getElementById(id);}
+function setText(id,val){var el=s(id);if(el)el.textContent=val;}
+function setHTML(id,val){var el=s(id);if(el)el.innerHTML=val;}
 
-function applyLang(l) {
-  const t = TX[l];
-  document.getElementById('txt-event-name').textContent = t.eventName();
-  document.getElementById('txt-greeting').textContent = t.greeting;
-  document.getElementById('txt-guest-name').textContent = guestName || (l==='es'?'vos':'you');
-  document.getElementById('txt-subtitle').textContent = t.subtitle;
-  document.getElementById('txt-manifesto-em').textContent = t.manifestoEm;
-  document.getElementById('txt-manifesto-body').textContent = t.manifestoBody;
-  document.getElementById('pill-1').textContent = t.p1;
-  document.getElementById('pill-2').textContent = t.p2;
-  document.getElementById('pill-3').textContent = t.p3;
-  document.getElementById('pill-4').textContent = t.p4;
-  document.getElementById('ey-theme').textContent = t.eyTheme;
-  document.getElementById('ttl-theme').textContent = t.ttlTheme;
-  document.getElementById('body-theme').textContent = t.bodyTheme;
-  document.getElementById('txt-theme-name').textContent = t.themeName();
-  document.getElementById('txt-theme-desc').textContent = t.themeDesc();
-  document.getElementById('ey-menu').textContent = t.eyMenu;
-  document.getElementById('ttl-menu').textContent = t.ttlMenu;
-  document.getElementById('mc-savory').textContent = t.mcSavory;
-  document.getElementById('mc-sweet').textContent = t.mcSweet;
-  document.getElementById('mc-drinks').textContent = t.mcDrinks;
-  document.getElementById('drink-list').textContent = t.drinkList;
-  document.getElementById('txt-menu-note').textContent = t.menuNote;
+function renderMenu(){
+  var savory=lang==='en'?STATE.menuSavoryEn:STATE.menuSavory;
+  var sweet=lang==='en'?STATE.menuSweetEn:STATE.menuSweet;
+  var sl=s('menu-savory-list');
+  var dl=s('menu-sweet-list');
+  if(sl){sl.innerHTML='';for(var i=0;i<savory.length;i++){var li=document.createElement('li');li.textContent=savory[i];sl.appendChild(li);}}
+  if(dl){dl.innerHTML='';for(var i=0;i<sweet.length;i++){var li=document.createElement('li');li.textContent=sweet[i];dl.appendChild(li);}}
+}
+
+function applyLang(l){
+  var t=TX[l];
+  setText('txt-event-name',STATE.eventName);
+  setText('txt-greeting',t.greeting);
+  setText('txt-guest-name',guestName||(l==='es'?'vos':'you'));
+  setText('txt-subtitle',t.subtitle);
+  setText('txt-manifesto-em',t.manifestoEm);
+  setText('txt-manifesto-body',t.manifestoBody);
+  setText('pill-1',t.p1);setText('pill-2',t.p2);setText('pill-3',t.p3);setText('pill-4',t.p4);
+  setText('ey-theme',t.eyTheme);setText('ttl-theme',t.ttlTheme);setText('body-theme',t.bodyTheme);
+  setText('txt-theme-name',STATE.themeName);setText('txt-theme-desc',STATE.themeDesc);
+  setText('ey-menu',t.eyMenu);setText('ttl-menu',t.ttlMenu);
+  setText('mc-savory',t.mcSavory);setText('mc-sweet',t.mcSweet);setText('mc-drinks',t.mcDrinks);
+  setText('drink-list',t.drinkList);setText('txt-menu-note',t.menuNote);
   renderMenu();
-  document.getElementById('ey-dates').textContent = t.eyDates;
-  document.getElementById('ttl-dates').textContent = t.ttlDates;
-  document.getElementById('body-dates').textContent = t.bodyDates;
-  DATES.forEach((d,i) => {
-    document.getElementById('dday-'+i).textContent = t.dayNames[i];
-    document.getElementById('dnum-'+i).textContent = d.num;
-    document.getElementById('dmonth-'+i).textContent = t.months[i];
-  });
-  document.getElementById('txt-other-date').textContent = t.otherDate;
-  document.getElementById('ey-drinks').textContent = t.eyDrinks;
-  document.getElementById('ttl-drinks').textContent = t.ttlDrinks;
-  document.getElementById('t-cafe').textContent = t.tCafe;
-  document.getElementById('t-latte').textContent = t.tLatte;
-  document.getElementById('t-te').textContent = t.tTe;
-  document.getElementById('t-mate').textContent = t.tMate;
-  document.getElementById('txt-milk-q').textContent = t.milkQ;
-  document.getElementById('m-comun').textContent = t.mComun;
-  document.getElementById('m-almendras').textContent = t.mAlm;
-  document.getElementById('ey-diet').textContent = t.eyDiet;
-  document.getElementById('ttl-diet').textContent = t.ttlDiet;
-  document.getElementById('d-none').textContent = t.dNone;
-  document.getElementById('d-veg').textContent = t.dVeg;
-  document.getElementById('d-vegan').textContent = t.dVegan;
-  document.getElementById('d-gluten').textContent = t.dGluten;
-  document.getElementById('d-lactose').textContent = t.dLactose;
-  document.getElementById('d-otra').textContent = t.dOtra;
-  document.getElementById('txt-gluten-note').textContent = t.glutenNote;
-  document.getElementById('ey-lang').textContent = t.eyLang;
-  document.getElementById('ttl-lang').textContent = t.ttlLang;
-  document.getElementById('lp-es').textContent = t.lpEs;
-  document.getElementById('lp-en').textContent = t.lpEn;
-  document.getElementById('lp-both').textContent = t.lpBoth;
-  document.getElementById('ey-notes').textContent = t.eyNotes;
-  document.getElementById('ttl-notes').textContent = t.ttlNotes;
-  document.getElementById('body-notes').textContent = t.bodyNotes;
-  document.getElementById('notes-input').placeholder = t.notesPlaceholder;
-  document.getElementById('ey-loc').textContent = t.eyLoc;
-  document.getElementById('ttl-loc').textContent = t.ttlLoc;
-  document.getElementById('txt-loc-title').textContent = t.locTitle;
-  document.getElementById('txt-loc-desc').textContent = t.locDesc;
-  document.getElementById('ey-price').textContent = t.eyPrice;
-  document.getElementById('ttl-price').textContent = t.ttlPrice;
-  document.getElementById('body-price').textContent = t.bodyPrice;
-  document.getElementById('txt-price-eye').textContent = t.priceEye;
-  document.getElementById('txt-price').textContent = STATE.price;
-  document.getElementById('txt-price-inc').textContent = t.priceInc;
-  document.getElementById('cta-btn').textContent = t.ctaBtn;
-  document.getElementById('txt-cta-note').textContent = t.ctaNote;
-  document.getElementById('txt-closing').innerHTML = t.closing + '<br><em>Juli</em>';
+  setText('ey-dates',t.eyDates);setText('ttl-dates',t.ttlDates);setText('body-dates',t.bodyDates);
+  for(var i=0;i<3;i++){setText('dday-'+i,t.dayNames[i]);setText('dnum-'+i,DATES[i].num);setText('dmonth-'+i,t.months[i]);}
+  setText('txt-other-date',t.otherDate);
+  setText('ey-drinks',t.eyDrinks);setText('ttl-drinks',t.ttlDrinks);
+  setText('t-cafe',t.tCafe);setText('t-latte',t.tLatte);setText('t-te',t.tTe);setText('t-mate',t.tMate);
+  setText('txt-milk-q',t.milkQ);setText('m-comun',t.mComun);setText('m-almendras',t.mAlm);
+  setText('ey-diet',t.eyDiet);setText('ttl-diet',t.ttlDiet);
+  setText('d-none',t.dNone);setText('d-veg',t.dVeg);setText('d-vegan',t.dVegan);
+  setText('d-lactose',t.dLactose);setText('d-otra',t.dOtra);
+  setText('ey-lang',t.eyLang);setText('ttl-lang',t.ttlLang);
+  setText('lp-es',t.lpEs);setText('lp-en',t.lpEn);setText('lp-both',t.lpBoth);
+  setText('ey-notes',t.eyNotes);setText('ttl-notes',t.ttlNotes);setText('body-notes',t.bodyNotes);
+  var ni=s('notes-input');if(ni)ni.placeholder=t.notesPlaceholder;
+  setText('ey-loc',t.eyLoc);setText('ttl-loc',t.ttlLoc);
+  setText('txt-loc-title',t.locTitle);setText('txt-loc-desc',t.locDesc);
+  setText('ey-price',t.eyPrice);setText('ttl-price',t.ttlPrice);setText('body-price',t.bodyPrice);
+  setText('txt-price-eye',t.priceEye);setText('txt-price',STATE.price);setText('txt-price-inc',t.priceInc);
+  setText('cta-btn',t.ctaBtn);setText('cta-btn-no',t.ctaNo);setText('txt-cta-note',t.ctaNote);
+  setHTML('txt-closing',t.closing+'<br><em>Juli</em>');
 }
 
-function renderMenu() {
-  const sl = document.getElementById('menu-savory-list');
-  const dl = document.getElementById('menu-sweet-list');
-  sl.innerHTML = STATE.menuSavory.map(i=>`<li>${i}</li>`).join('');
-  dl.innerHTML = STATE.menuSweet.map(i=>`<li>${i}</li>`).join('');
-}
-
-function setLang(l, btn) {
-  lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+function setLang(l,btn){
+  lang=l;
+  var btns=document.querySelectorAll('.lang-btn');
+  for(var i=0;i<btns.length;i++)btns[i].classList.remove('active');
   btn.classList.add('active');
   applyLang(l);
 }
 
-function selDate(el, id) {
-  document.querySelectorAll('.date-card').forEach(d=>d.classList.remove('selected'));
-  document.getElementById('dcard-other').classList.remove('selected');
+function selDate(el,id){
+  var cards=document.querySelectorAll('.date-card');
+  for(var i=0;i<cards.length;i++)cards[i].classList.remove('selected');
+  var o=s('dcard-other');if(o)o.classList.remove('selected');
   el.classList.add('selected');
 }
-function selDateOther(el) {
-  document.querySelectorAll('.date-card').forEach(d=>d.classList.remove('selected'));
+function selDateOther(el){
+  var cards=document.querySelectorAll('.date-card');
+  for(var i=0;i<cards.length;i++)cards[i].classList.remove('selected');
   el.classList.add('selected');
 }
-
-function togTag(el, val) {
+function togTag(el,val){
   el.classList.toggle('sel');
-  const hasLatte = document.getElementById('t-latte').classList.contains('sel');
-  document.getElementById('milk-sub').style.display = hasLatte ? 'block' : 'none';
+  var latte=s('t-latte');var milk=s('milk-sub');
+  if(latte&&milk)milk.style.display=latte.classList.contains('sel')?'block':'none';
 }
-function selMilk(el) {
-  document.querySelectorAll('#milk-sub .tag').forEach(t=>t.classList.remove('sel'));
+function selMilk(el){
+  var tags=document.querySelectorAll('#milk-sub .tag');
+  for(var i=0;i<tags.length;i++)tags[i].classList.remove('sel');
   el.classList.add('sel');
 }
-
-function togDiet(el, val) {
-  if (val==='none') {
-    document.querySelectorAll('.tag.moss').forEach(t=>t.classList.remove('sel'));
-    el.classList.add('sel');
-    return;
+function togDiet(el,val){
+  if(val==='none'){
+    var tags=document.querySelectorAll('.tag.moss');
+    for(var i=0;i<tags.length;i++)tags[i].classList.remove('sel');
+    el.classList.add('sel');return;
   }
-  document.getElementById('d-none').classList.remove('sel');
+  var none=s('d-none');if(none)none.classList.remove('sel');
   el.classList.toggle('sel');
 }
-
-function selLang(el, val) {
-  document.querySelectorAll('.lang-card').forEach(c=>c.classList.remove('sel'));
+function selLang(el,val){
+  var cards=document.querySelectorAll('.lang-card');
+  for(var i=0;i<cards.length;i++)cards[i].classList.remove('sel');
   el.classList.add('sel');
 }
 
-function applyAdmin() {
-  const en = document.getElementById('a-eventname').value.trim();
-  const pr = document.getElementById('a-price').value.trim();
-  const tl = document.getElementById('a-tally').value.trim();
-  const tn = document.getElementById('a-theme-name').value.trim();
-  const td = document.getElementById('a-theme-desc').value.trim();
-  const ms = document.getElementById('a-menu-s').value.trim();
-  const md = document.getElementById('a-menu-d').value.trim();
-  const d1 = document.getElementById('a-d1').value.trim();
-  const d2 = document.getElementById('a-d2').value.trim();
-  const d3 = document.getElementById('a-d3').value.trim();
-
-  if (en) STATE.eventName = en;
-  if (pr) STATE.price = pr;
-  if (tl) { STATE.tallyLink = tl; document.getElementById('cta-btn').href = tl; }
-  if (tn) STATE.themeName = tn;
-  if (td) STATE.themeDesc = td;
-  if (ms) STATE.menuSavory = ms.split('\n').filter(x=>x.trim());
-  if (md) STATE.menuSweet = md.split('\n').filter(x=>x.trim());
-
-  [[d1,0],[d2,1],[d3,2]].forEach(([v,i])=>{
-    if (!v) return;
-    const parts = v.split(' ');
-    if(parts[0]) DATES[i].num = parts[0];
-    if(parts[1]) { DATES[i].mes_es = parts[1]; DATES[i].mes_en = parts[1]; }
+function applyAdmin(){
+  var en=s('a-eventname').value.trim();
+  var pr=s('a-price').value.trim();
+  var tn=s('a-theme-name').value.trim();
+  var td=s('a-theme-desc').value.trim();
+  var ms=s('a-menu-s').value.trim();
+  var md=s('a-menu-d').value.trim();
+  var d1=s('a-d1').value.trim();
+  var d2=s('a-d2').value.trim();
+  var d3=s('a-d3').value.trim();
+  if(en)STATE.eventName=en;
+  if(pr)STATE.price=pr;
+  if(tn)STATE.themeName=tn;
+  if(td)STATE.themeDesc=td;
+  if(ms){STATE.menuSavory=ms.split('\n').filter(function(x){return x.trim();});}
+  if(md){STATE.menuSweet=md.split('\n').filter(function(x){return x.trim();});}
+  [[d1,0],[d2,1],[d3,2]].forEach(function(pair){
+    var v=pair[0],i=pair[1];if(!v)return;
+    var parts=v.split(' ');
+    if(parts[0])DATES[i].num=parts[0];
+    if(parts[1]){DATES[i].mes_es=parts[1];DATES[i].mes_en=parts[1];TX.es.months[i]=parts[1];TX.en.months[i]=parts[1];}
   });
+  if(ms||md){translateMenu();}else{applyLang(lang);}
+}
 
+async function translateMenu(){
+  var btn=s('admin-apply-btn');if(btn){btn.textContent='Traduciendo...';btn.disabled=true;}
+  var all=STATE.menuSavory.concat(STATE.menuSweet);
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,
+        messages:[{role:'user',content:'Translate these Spanish brunch menu items to English. Return ONLY a JSON array of strings in the same order, no explanation, no markdown:\n'+JSON.stringify(all)}]})
+    });
+    var data=await res.json();
+    var translated=JSON.parse(data.content[0].text.trim());
+    STATE.menuSavoryEn=translated.slice(0,STATE.menuSavory.length);
+    STATE.menuSweetEn=translated.slice(STATE.menuSavory.length);
+  }catch(e){
+    STATE.menuSavoryEn=STATE.menuSavory.slice();
+    STATE.menuSweetEn=STATE.menuSweet.slice();
+  }
+  if(btn){btn.textContent='Aplicar cambios';btn.disabled=false;}
   applyLang(lang);
-  document.getElementById('txt-price').textContent = STATE.price;
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRdwyWBO7Q_FIG6eKCd9Bq_iIYhubJb1_AX_xxXJ8s181UxJOYjklju5woCFx0RXKH/exec';
+var SCRIPT_URL='https://script.google.com/macros/s/AKfycbxRdwyWBO7Q_FIG6eKCd9Bq_iIYhubJb1_AX_xxXJ8s181UxJOYjklju5woCFx0RXKH/exec';
 
-function submitForm(interes) {
-  const dateSelected = document.querySelector('.date-card.selected');
-  const dateOther = document.getElementById('dcard-other');
-  let fechaElegida = '';
-  if (dateOther && dateOther.classList.contains('selected')) {
-    fechaElegida = 'Otra fecha';
-  } else if (dateSelected) {
-    const num = dateSelected.querySelector('.date-num').textContent;
-    const month = dateSelected.querySelector('.date-month').textContent;
-    const day = dateSelected.querySelector('.date-day').textContent;
-    fechaElegida = day + ' ' + num + ' ' + month;
-  }
-  const drinks = Array.from(document.querySelectorAll('.tag.petal.sel'))
-    .map(t => t.textContent.trim())
-    .filter(t => !t.includes('comun') && !t.includes('almendras') && !t.includes('common') && !t.includes('almond'));
-  const leche = document.querySelector('#milk-sub .tag.sel') ? document.querySelector('#milk-sub .tag.sel').textContent.trim() : '';
-  const diets = Array.from(document.querySelectorAll('.tag.moss.sel')).map(t => t.textContent.trim());
-  const langPref = document.querySelector('.lang-card.sel .lname') ? document.querySelector('.lang-card.sel .lname').textContent.trim() : '';
-  const notas = document.getElementById('notes-input').value.trim();
-  const nombre = guestName || 'invitada';
-
-  const payload = { nombre, fecha: fechaElegida, bebida: drinks.join(', '), leche, restricciones: diets.join(', '), idioma: langPref, notas, interes: interes === 'no' ? 'Solo avisar próximos' : 'Quiere venir' };
-
-  document.getElementById('txt-sending').style.display = 'block';
-  document.getElementById('txt-error').style.display = 'none';
-  document.getElementById('cta-btn').disabled = true;
-  document.getElementById('cta-btn-no').disabled = true;
-
-  fetch(SCRIPT_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
-  .then(() => { showSuccess(nombre); })
-  .catch(() => {
-    document.getElementById('txt-sending').style.display = 'none';
-    document.getElementById('txt-error').style.display = 'block';
-    document.getElementById('cta-btn').disabled = false;
-  });
+function submitForm(interes){
+  var dateCard=document.querySelector('.date-card.selected');
+  var dateOth=s('dcard-other');
+  var fecha='';
+  if(dateOth&&dateOth.classList.contains('selected')){fecha='Otra fecha';}
+  else if(dateCard){fecha=dateCard.querySelector('.date-day').textContent+' '+dateCard.querySelector('.date-num').textContent+' '+dateCard.querySelector('.date-month').textContent;}
+  var drinkEls=document.querySelectorAll('.tag.petal.sel');
+  var drinks=[];
+  for(var i=0;i<drinkEls.length;i++){var txt=drinkEls[i].textContent.trim();if(txt.indexOf('comun')<0&&txt.indexOf('almendras')<0&&txt.indexOf('milk')<0)drinks.push(txt);}
+  var milkEl=document.querySelector('#milk-sub .tag.sel');
+  var leche=milkEl?milkEl.textContent.trim():'';
+  var dietEls=document.querySelectorAll('.tag.moss.sel');
+  var diets=[];for(var i=0;i<dietEls.length;i++)diets.push(dietEls[i].textContent.trim());
+  var langEl=document.querySelector('.lang-card.sel .lname');
+  var langPref=langEl?langEl.textContent.trim():'';
+  var notasEl=s('notes-input');
+  var notas=notasEl?notasEl.value.trim():'';
+  var nombre=guestName||'invitada';
+  var payload={nombre:nombre,fecha:fecha,bebida:drinks.join(', '),leche:leche,restricciones:diets.join(', '),idioma:langPref,notas:notas,interes:interes==='no'?'Solo avisar próximos':'Quiere venir'};
+  var se=s('txt-sending');if(se)se.style.display='block';
+  var er=s('txt-error');if(er)er.style.display='none';
+  var b1=s('cta-btn');if(b1)b1.disabled=true;
+  var b2=s('cta-btn-no');if(b2)b2.disabled=true;
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+  .then(function(){showSuccess(nombre);})
+  .catch(function(){if(se)se.style.display='none';if(er)er.style.display='block';if(b1)b1.disabled=false;if(b2)b2.disabled=false;});
 }
 
-function showSuccess(name) {
-  const t = TX[lang];
-  document.getElementById('main-content').style.display = 'none';
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelector('.pills').style.display = 'none';
-  document.querySelector('.closing').style.display = 'none';
-  const s = document.getElementById('success-screen');
-  s.style.display = 'block';
-  document.getElementById('s-title').textContent = t.sTitle(name);
-  document.getElementById('s-body').textContent = t.sBody;
+function showSuccess(name){
+  var t=TX[lang];
+  var mc=s('main-content');if(mc)mc.style.display='none';
+  var hero=document.querySelector('.hero');if(hero)hero.style.display='none';
+  var pills=document.querySelector('.pills');if(pills)pills.style.display='none';
+  var cl=document.querySelector('.closing');if(cl)cl.style.display='none';
+  var sc=s('success-screen');if(sc)sc.style.display='block';
+  setText('s-title',t.sTitle+' '+name+'!');
+  setText('s-body',t.sBody);
 }
 
-// init
 applyLang('es');
 </script>
 </body>
